@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#09C"
+    android:padding="@dimen/widget_margin">
+
+    <TextView
+        android:id="@+id/appwidget_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:background="#09C"
+        android:contentDescription="@string/appwidget_text"
+        android:text="@string/appwidget_text"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+    <Button
+        android:id="@+id/buttonBluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="17dp"
+        android:text="Bluetooth" />
+
+    <Button
+        android:id="@+id/buttonWlan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="89dp"
+        android:text="Wlan" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

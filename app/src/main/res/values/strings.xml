@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ControlWidget</string>
+    <string name="appwidget_text">Control Widget 1.0</string>
+    <string name="add_widget">Add widget</string>
+</resources>

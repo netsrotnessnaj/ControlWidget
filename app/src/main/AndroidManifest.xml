@@ -12,6 +12,7 @@
         <receiver android:name=".ControlWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.net.wifi.supplicant.WIFI_STATE_CHANGED_ACTION"/>
             </intent-filter>
 
             <meta-data

@@ -16,6 +16,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ public class ControlWidget extends AppWidgetProvider {
     private static final String BLUETOOTH_CLICKED    = "bluetoothButtonClick";
     private static final String WLAN_CLICKED    = "wlanButtonClick";
 
-
+    private ImageView buttonBluetoothOn;
     private Context context;
 
     RemoteViews remoteViews;
@@ -38,20 +39,23 @@ public class ControlWidget extends AppWidgetProvider {
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.control_widget);
         watchWidget = new ComponentName(context, ControlWidget.class);
 
-
-remoteViews.setViewVisibility(R.id.progressBar,0);
-
-
+        remoteViews.setOnClickPendingIntent(R.id.iconBluetoothOn, getPendingSelfIntent(context, BLUETOOTH_CLICKED));
+        remoteViews.setOnClickPendingIntent(R.id.iconBluetoothOff, getPendingSelfIntent(context, BLUETOOTH_CLICKED));
+        remoteViews.setOnClickPendingIntent(R.id.iconWifiOn, getPendingSelfIntent(context, WLAN_CLICKED));
+        remoteViews.setOnClickPendingIntent(R.id.iconWifiOff, getPendingSelfIntent(context, WLAN_CLICKED));
 
         // Bluetooth
         BluetoothAdapter adapter = null;
         adapter = BluetoothAdapter.getDefaultAdapter();
         if(adapter.getState() == BluetoothAdapter.STATE_ON) {
             Log.d("ControlWidget", "Bluetooth Status:ON");
-            remoteViews.setTextViewText(R.id.buttonBluetooth, "Bluetooth (ON)");
+            remoteViews.setViewVisibility(R.id.iconBluetoothOn,View.VISIBLE);
+            remoteViews.setViewVisibility(R.id.iconBluetoothOff,View.INVISIBLE);
+
         } else {
             Log.d("ControlWidget", "Bluetooth Status:OFF");
-            remoteViews.setTextViewText(R.id.buttonBluetooth, "Bluetooth (OFF)");
+            remoteViews.setViewVisibility(R.id.iconBluetoothOn,View.INVISIBLE);
+            remoteViews.setViewVisibility(R.id.iconBluetoothOff,View.VISIBLE);
         }
 
         // Wifi
@@ -60,15 +64,15 @@ remoteViews.setViewVisibility(R.id.progressBar,0);
 
         if (wifi.isWifiEnabled()) {
             Log.d("ControlWidget", "WLAN Status:ON");
-            remoteViews.setTextViewText(R.id.buttonWlan, "WLAN (ON)");
+            remoteViews.setViewVisibility(R.id.iconWifiOn,View.VISIBLE);
+            remoteViews.setViewVisibility(R.id.iconWifiOff,View.INVISIBLE);
 
         } else {
             Log.d("ControlWidget", "WLAN Status:OFF");
-            remoteViews.setTextViewText(R.id.buttonWlan, "WLAN (OFF)");
+            remoteViews.setViewVisibility(R.id.iconWifiOn,View.INVISIBLE);
+            remoteViews.setViewVisibility(R.id.iconWifiOff,View.VISIBLE);
         }
 
-        remoteViews.setOnClickPendingIntent(R.id.buttonBluetooth, getPendingSelfIntent(context, BLUETOOTH_CLICKED));
-        remoteViews.setOnClickPendingIntent(R.id.buttonWlan, getPendingSelfIntent(context, WLAN_CLICKED));
 
 
 
@@ -81,6 +85,12 @@ remoteViews.setViewVisibility(R.id.progressBar,0);
     public void onReceive(Context context, Intent intent) {
         // TODO Auto-generated method stub
         super.onReceive(context, intent);
+
+        final String action = intent.getAction();
+        if (action.equals(WifiManager.WIFI_STATE_CHANGED_ACTION)) {
+            this.onUpdate(context, AppWidgetManager.getInstance(context),null);
+        }
+
 
         if (BLUETOOTH_CLICKED.equals(intent.getAction())) {
 
